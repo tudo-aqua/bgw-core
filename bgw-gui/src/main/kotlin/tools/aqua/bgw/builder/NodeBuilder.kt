@@ -160,7 +160,7 @@ object NodeBuilder {
 
     if (this is UIComponent) {
       backgroundStyleProperty.setGUIListenerAndInvoke(backgroundStyle) { _, nV ->
-        if (nV.isNotEmpty()) background.style = nV
+        if (nV.isNotEmpty()) background.style += nV
       }
 
       fontProperty.guiListener = { _, _ -> updateStyle(node) }

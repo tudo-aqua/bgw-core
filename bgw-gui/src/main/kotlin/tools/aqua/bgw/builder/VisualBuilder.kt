@@ -24,7 +24,6 @@ import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.image.WritableImage
 import javafx.scene.layout.Pane
-import javafx.scene.layout.Region
 import javafx.scene.layout.StackPane
 import kotlin.math.abs
 import tools.aqua.bgw.builder.FXConverters.toFXColor
@@ -40,22 +39,15 @@ object VisualBuilder {
 
   /** Builds [Visual]. */
   internal fun build(componentView: ComponentView): Pane {
-    val root = Pane()
-
+    var root = Pane()
     componentView.visualProperty.setGUIListenerAndInvoke(componentView.visual) { _, nV ->
-      root.children.clear()
-      root.children.add(
-          buildVisual(nV).apply {
-            prefWidthProperty().bind(root.prefWidthProperty())
-            prefHeightProperty().bind(root.prefHeightProperty())
-          })
+      root = buildVisual(nV)
     }
-
     return root
   }
 
   /** Switches between visuals. */
-  internal fun buildVisual(visual: Visual): Region =
+  internal fun buildVisual(visual: Visual): Pane =
       when (visual) {
         is ColorVisual -> buildColorVisual(visual)
         is ImageVisual -> buildImageVisual(visual)
