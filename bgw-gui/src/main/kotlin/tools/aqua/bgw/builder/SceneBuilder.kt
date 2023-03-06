@@ -94,17 +94,17 @@ object SceneBuilder {
           prefHeight = scene.height
           prefWidth = scene.width
 
-          addEventFilter(KeyEvent.KEY_TYPED) {
-            if (scene !is BoardGameScene || !scene.internalLockedProperty.value)
-                scene.onKeyTyped?.invoke(it.toKeyEvent())
-          }
-          addEventFilter(KeyEvent.KEY_PRESSED) {
+          setOnKeyPressed {
             if (scene !is BoardGameScene || !scene.internalLockedProperty.value)
                 scene.onKeyPressed?.invoke(it.toKeyEvent())
           }
-          addEventFilter(KeyEvent.KEY_RELEASED) {
+          setOnKeyReleased{
             if (scene !is BoardGameScene || !scene.internalLockedProperty.value)
                 scene.onKeyReleased?.invoke(it.toKeyEvent())
+          }
+          setOnKeyTyped {
+            if (scene !is BoardGameScene || !scene.internalLockedProperty.value)
+              scene.onKeyTyped?.invoke(it.toKeyEvent())
           }
         }
 

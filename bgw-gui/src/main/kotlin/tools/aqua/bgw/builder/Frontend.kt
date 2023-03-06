@@ -276,6 +276,14 @@ internal class Frontend : Application() {
             children.clear()
             children.add(backgroundPane)
             children.addAll(activePanes)
+
+            activePanes.lastOrNull()?.let { activePane ->
+              setOnKeyPressed {
+                  event -> activePane.onKeyPressed?.handle(event)
+              }
+              setOnKeyReleased { event -> activePane.onKeyReleased?.handle(event) }
+              setOnKeyTyped { event -> activePane.onKeyTyped?.handle(event) }
+            }
           }
 
       primaryStage?.scene?.root = scenePane

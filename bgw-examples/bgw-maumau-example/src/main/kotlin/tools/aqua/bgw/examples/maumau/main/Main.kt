@@ -18,8 +18,10 @@
 package tools.aqua.bgw.examples.maumau.main
 
 import tools.aqua.bgw.examples.maumau.view.MauMauViewController
+import view.SopraApplication
 
 /** Entry point. */
 fun main() {
-  MauMauViewController()
+  //MauMauViewController()
+  SopraApplication().show()
 }
