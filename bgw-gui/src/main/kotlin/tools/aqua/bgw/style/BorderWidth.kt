@@ -17,23 +17,21 @@
 
 package tools.aqua.bgw.style
 
-open class BorderWidth(pixel: Int = 0) : StyleAttribute() {
-  override val key: String = "-fx-border-width"
-  override val value: String = "${pixel}px"
+open class BorderWidth private constructor(override val value: String) : StyleAttribute() {
+    override val key: String = "-fx-border-width"
 
-  companion object {
-    val NONE = BorderWidth(0)
-    val XS = BorderWidth(2)
-    val SMALL = BorderWidth(4)
-    val MEDIUM = BorderWidth(6)
-    val LARGE = BorderWidth(8)
-    val XL = BorderWidth(12)
-    val XXL = BorderWidth(16)
-    val XXXL = BorderWidth(24)
-    val FULL =
-        object : BorderWidth() {
-          override val value: String
-            get() = "100%"
-        }
-  }
+    constructor(pixel: Int = 0) : this("${pixel}px")
+    constructor(rem: Double = 0.0) : this("${rem}rem")
+
+    companion object {
+        val NONE = BorderWidth(0.0)
+        val XS = BorderWidth(0.125)
+        val SMALL = BorderWidth(0.25)
+        val MEDIUM = BorderWidth(0.375)
+        val LARGE = BorderWidth(0.5)
+        val XL = BorderWidth(0.75)
+        val XXL = BorderWidth(1.0)
+        val XXXL = BorderWidth(1.5)
+        val FULL = BorderWidth("100%")
+    }
 }
