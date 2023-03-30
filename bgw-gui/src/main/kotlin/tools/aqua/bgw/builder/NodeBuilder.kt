@@ -24,6 +24,7 @@ import tools.aqua.bgw.builder.FXConverters.toFXFontCSS
 import tools.aqua.bgw.builder.FXConverters.toKeyEvent
 import tools.aqua.bgw.builder.FXConverters.toMouseEvent
 import tools.aqua.bgw.builder.FXConverters.toScrollEvent
+import tools.aqua.bgw.builder.NodeBuilder.registerObservers
 import tools.aqua.bgw.components.ComponentView
 import tools.aqua.bgw.components.DynamicComponentView
 import tools.aqua.bgw.components.StaticComponentView
@@ -36,6 +37,8 @@ import tools.aqua.bgw.core.BoardGameScene
 import tools.aqua.bgw.core.Scene
 import tools.aqua.bgw.event.DragEvent
 import tools.aqua.bgw.exception.IllegalInheritanceException
+import java.io.File
+import java.io.FileNotFoundException
 
 /** NodeBuilder. Factory for all BGW nodes. */
 object NodeBuilder {
@@ -153,9 +156,16 @@ object NodeBuilder {
       node.isVisible = nV
       background.isVisible = nV
     }
+      val buttonStyle = javaClass.getResource("/style.css")?: throw FileNotFoundException()
+      node.stylesheets.add(buttonStyle.toExternalForm())
+      println(node.style)
+
     isDisabledProperty.setGUIListenerAndInvoke(isDisabled) { _, nV ->
       node.isDisable = nV
       background.isDisable = nV
+      for(e in node.stylesheets) {
+        println(e)
+      }
     }
 
     if (this is UIComponent) {

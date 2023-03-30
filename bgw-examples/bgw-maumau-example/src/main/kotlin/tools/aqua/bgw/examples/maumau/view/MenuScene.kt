@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2023 The BoardGameWork Authors
+ * Copyright 2023 The BoardGameWork Authors
  * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,13 +15,26 @@
  * limitations under the License.
  */
 
-package tools.aqua.bgw.examples.maumau.main
+package view
 
-import tools.aqua.bgw.examples.maumau.view.MauMauViewController
-import view.SopraApplication
+import tools.aqua.bgw.components.uicomponents.Label
+import tools.aqua.bgw.core.MenuScene
+import tools.aqua.bgw.util.Font
+import tools.aqua.bgw.visual.ColorVisual
 
-/** Entry point. */
-fun main() {
-   //MauMauViewController()
-   SopraApplication().show()
+class MenuScene : MenuScene(500, 500) {
+
+  val helloLabel =
+      Label(
+          width = 500,
+          height = 500,
+          posX = 0,
+          posY = 0,
+          text = "Hello, this is a MenuScene",
+          font = Font(size = 20))
+
+  init {
+    background = ColorVisual(108, 168, 59)
+    addComponents(helloLabel)
+  }
 }

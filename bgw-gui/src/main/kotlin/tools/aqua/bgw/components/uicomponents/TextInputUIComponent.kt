@@ -19,6 +19,8 @@
 
 package tools.aqua.bgw.components.uicomponents
 
+import javafx.scene.Node
+import tools.aqua.bgw.observable.properties.BooleanProperty
 import tools.aqua.bgw.observable.properties.Property
 import tools.aqua.bgw.observable.properties.StringProperty
 import tools.aqua.bgw.util.Font
@@ -52,7 +54,12 @@ sealed class TextInputUIComponent(
         font = font,
         visual = Visual.EMPTY) {
 
-  /**
+    /**
+     * a property that
+     *
+     */
+
+    /**
    * [Property] for the text of this [TextInputUIComponent].
    *
    * @see text
@@ -68,6 +75,31 @@ sealed class TextInputUIComponent(
     get() = textProperty.value
     set(value) {
       textProperty.value = value
+        this.isDisabled
+    }
+
+    /**
+     * [Property] that controls whether a [TextField] is accessible or not.
+     *
+     * @see isReadOnly
+     */
+     val isReadOnlyProperty : BooleanProperty = BooleanProperty(false)
+
+    /**
+     * [Property] that controls whether a [TextField] is accessible or not.
+     *
+     * @see isReadOnly
+     */
+    var isReadOnly : Boolean
+        get() = isReadOnlyProperty.value
+        set(value) {
+            isReadOnlyProperty.value = value
+        }
+
+
+
+    fun isChanged(){
+
     }
 
   /**
