@@ -65,16 +65,24 @@ object HexagonBuilder {
   }
 
   private fun buildPolygon(points: DoubleArray, compoundVisual: CompoundVisual): Region =
-      StackPane(
-              *compoundVisual.children
-                  .map {
-                    when (it) {
-                      is TextVisual -> buildPolygon(points, it)
-                      else -> buildPolygon(points, it)
-                    }
-                  }
-                  .toTypedArray())
-          .apply { isPickOnBounds = false }
+      StackPane().apply {
+          compoundVisual.childrenProperty.setGUIListenerAndInvoke(compoundVisual.children) { oV, nV ->
+              val oldSet : List<SingleLayerVisual> = oV
+              val newSet : List<SingleLayerVisual> = nV
+              val removed : List<SingleLayerVisual> = oldSet - newSet
+              var added : List<SingleLayerVisual> = newSet - oldSet
+              if(oV == nV) added = newSet
+              children.removeIf { it.userData is SingleLayerVisual && it.userData in removed }
+              children.addAll(*added
+                  .map { singleLayerVisual ->
+                      when (singleLayerVisual) {
+                          is TextVisual -> buildPolygon(points, singleLayerVisual)
+                          else -> buildPolygon(points, singleLayerVisual)
+                      }.apply { userData = singleLayerVisual }
+                  }.toTypedArray())
+          }
+          isPickOnBounds = false
+      }
 
   private fun buildPolygon(points: DoubleArray, visual: SingleLayerVisual): Region =
       Pane(
@@ -118,10 +126,12 @@ object HexagonBuilder {
     return points.toDoubleArray()
   }
 
+    private val cache = mutableMapOf<SingleLayerVisual, Paint>()
+
   private fun buildPaint(visual: SingleLayerVisual): Paint =
-      when (visual) {
+      cache[visual] ?: when (visual) {
         is ColorVisual -> visual.color.toFXColor()
         is ImageVisual -> ImagePattern(visual.image.toFXImage())
         is TextVisual -> Color.TRANSPARENT
-      }
+      }.also { cache[visual] = it }
 }

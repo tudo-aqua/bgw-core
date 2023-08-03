@@ -19,6 +19,7 @@
 
 package tools.aqua.bgw.builder
 
+import javafx.embed.swing.SwingFXUtils
 import java.awt.image.BufferedImage
 import java.util.*
 import javafx.geometry.Orientation as FXOrientation
@@ -57,16 +58,7 @@ object FXConverters {
       )
 
   /** Converts the [BufferedImage] to [Image]. */
-  internal fun BufferedImage.toFXImage(): Image =
-      ImageView(
-              WritableImage(width, height).apply {
-                pixelWriter.let {
-                  repeat(this@toFXImage.width) { x ->
-                    repeat(this@toFXImage.height) { y -> it.setArgb(x, y, getRGB(x, y)) }
-                  }
-                }
-              })
-          .image
+  internal fun BufferedImage.toFXImage(): Image = SwingFXUtils.toFXImage(this, null)
 
   /** Converts the BGW [Font] to [javafx.scene.text.Font]. */
   internal fun Font.toFXFontCSS(): String {
