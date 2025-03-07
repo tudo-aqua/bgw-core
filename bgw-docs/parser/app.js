@@ -11,9 +11,9 @@ const {
 
 let rootDir = "./example/htmlPartial";
 
-function loadPackageList() {
+function loadPackageList(filename) {
   const packageList = fs.readFileSync(
-    "./example/htmlPartial/package-list",
+    "./example/htmlPartial/" + filename,
     "utf8"
   );
 
@@ -23,7 +23,15 @@ function loadPackageList() {
   return lines;
 }
 
-let validPackages = loadPackageList();
+function loadAllPackages() {
+  const bgwGui = loadPackageList("package-list");
+  const bgwClient = loadPackageList("package-list-client");
+  const bgwCommon = loadPackageList("package-list-common");
+
+  return [...bgwGui, ...bgwClient, ...bgwCommon];
+}
+
+let validPackages = loadAllPackages();
 
 function getDirectoryStructure(dir) {
   let results = {};
@@ -254,10 +262,15 @@ function parseFunction($, el, tree) {
     // const functionPattern =
     //   /^(?:(?:suspend|private|protected|public|internal|inline|open|abstract|override|operator)\s+)*fun\s+(?:[\w<>]+\.)?(\w+)\s*(?:<[^>]+>)?\s*\((.*?)\)(?:\s*:\s*(.+))?$/s;
     const functionPattern =
-      /^(?:(?:suspend|private|protected|public|internal|inline|abstract|override|operator)\s+)*fun\s+(\w+)\s*(?:<[^>]+>)?\s*\((.*?)\)(?:\s*:\s*(.+))?$/s;
-    const match = func.match(functionPattern);
+      /^(?:(?:suspend|private|protected|public|internal|inline|abstract|override|operator|open)\s+)*fun\s+(\w+)\s*(?:<[^>]+>)?\s*\((.*?)\)(?:\s*:\s*(.+))?$/s;
+    const match = func.replace(/^@Synchronized/, "").match(functionPattern);
 
     if (!match) {
+      console.warn(`Could not parse Kotlin function: ${func}`);
+      return null;
+    }
+
+    if(func.includes("toFront") || func.includes("toBack") || func.includes("setZIndex")) {
       console.warn(`Could not parse Kotlin function: ${func}`);
       return null;
     }

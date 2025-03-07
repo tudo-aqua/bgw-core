@@ -86,7 +86,8 @@ open class ImageVisual(
     }
 
   /**
-   * Load image from [BufferedImage].
+   * Load image from [BufferedImage]. This is only a fallback for legacy BGW versions and will be
+   * removed in future versions.
    *
    * @see SingleLayerVisual
    * @see CompoundVisual
@@ -95,6 +96,9 @@ open class ImageVisual(
    *
    * @since 0.1
    */
+  @Deprecated(
+      "Using BufferedImages is no longer recommended as of BGW 0.10, as they cause poor performance.",
+      ReplaceWith("ImageVisual(path)"))
   constructor(
       image: BufferedImage,
       width: Int = -1,

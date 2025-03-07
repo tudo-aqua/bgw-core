@@ -60,8 +60,6 @@ open class ColorVisual(color: Color) : SingleLayerVisual() {
    * The alpha channel gets multiplied with the [transparency] i.e. alpha = 0.5 (50%) and
    * [transparency] = 0.5 (50%) leads to 25% visibility / 75% transparency.
    *
-   * @constructor Creates a solid [ColorVisual] filled with given RGBA values.
-   *
    * @param r Red channel between 0 and 255.
    * @param g Green channel between 0 and 255.
    * @param b Blue channel between 0 and 255.
@@ -92,15 +90,19 @@ open class ColorVisual(color: Color) : SingleLayerVisual() {
           }))
 
   /**
-   * A solid color visual. Displays a rectangle filled with the given java.awt.Color.
+   * Creates a solid [ColorVisual] filled with given [java.awt.Color]. This is only a fallback for
+   * legacy BGW versions and will be removed in future versions.
    *
-   * @constructor Creates a solid [ColorVisual] filled with given [java.awt.Color].
+   * @param awtColor Color to use as filling.
    *
-   * @param color Color to use as filling.
+   * @see Color
    *
    * @since 0.10
    */
-  constructor(color: java.awt.Color) : this(Color(color.red, color.green, color.blue, color.alpha))
+  @Deprecated("Using java.awt.Color is no longer recommended as of BGW 0.10.", ReplaceWith("Color"))
+  constructor(
+      awtColor: java.awt.Color
+  ) : this(Color(awtColor.red, awtColor.green, awtColor.blue, awtColor.alpha))
 
   /** Copies this [ColorVisual] to a new object. */
   override fun copy(): ColorVisual =
@@ -112,60 +114,72 @@ open class ColorVisual(color: Color) : SingleLayerVisual() {
       }
 
   companion object {
-    /** [ColorVisual] filled [WHITE] but completely opaque. */
+    /** [ColorVisual] filled with [Color.WHITE] but completely opaque. */
     val TRANSPARENT: ColorVisual
       get() = ColorVisual(Color.WHITE).apply { transparency = 0.0 }
 
-    /** [ColorVisual] filled [WHITE]. */
+    /** [ColorVisual] filled with [Color.WHITE]. */
     val WHITE: ColorVisual
       get() = ColorVisual(Color.WHITE)
 
-    /** [ColorVisual] filled [LIGHT_GRAY]. */
+    /** [ColorVisual] filled with [Color.LIGHT_GRAY]. */
     val LIGHT_GRAY: ColorVisual
       get() = ColorVisual(Color.LIGHT_GRAY)
 
-    /** [ColorVisual] filled [GRAY]. */
+    /** [ColorVisual] filled with [Color.GRAY]. */
     val GRAY: ColorVisual
       get() = ColorVisual(Color.GRAY)
 
-    /** [ColorVisual] filled [DARK_GRAY]. */
+    /** [ColorVisual] filled with [Color.DARK_GRAY]. */
     val DARK_GRAY: ColorVisual
       get() = ColorVisual(Color.DARK_GRAY)
 
-    /** [ColorVisual] filled [BLACK]. */
+    /** [ColorVisual] filled with [Color.BLACK]. */
     val BLACK: ColorVisual
       get() = ColorVisual(Color.BLACK)
 
-    /** [ColorVisual] filled [RED]. */
+    /** [ColorVisual] filled with [Color.RED]. */
     val RED: ColorVisual
       get() = ColorVisual(Color.RED)
 
-    /** [ColorVisual] filled [PINK]. */
+    /** [ColorVisual] filled with [Color.PINK]. */
     val PINK: ColorVisual
       get() = ColorVisual(Color.PINK)
 
-    /** [ColorVisual] filled [ORANGE]. */
+    /** [ColorVisual] filled with [Color.ORANGE]. */
     val ORANGE: ColorVisual
       get() = ColorVisual(Color.ORANGE)
 
-    /** [ColorVisual] filled [YELLOW]. */
+    /** [ColorVisual] filled with [Color.YELLOW]. */
     val YELLOW: ColorVisual
       get() = ColorVisual(Color.YELLOW)
 
-    /** [ColorVisual] filled [GREEN]. */
+    /** [ColorVisual] filled with [Color.GREEN]. */
     val GREEN: ColorVisual
       get() = ColorVisual(Color.GREEN)
 
-    /** [ColorVisual] filled [MAGENTA]. */
+    /** [ColorVisual] filled with [Color.LIME]. */
+    val LIME: ColorVisual
+      get() = ColorVisual(Color.LIME)
+
+    /** [ColorVisual] filled with [Color.MAGENTA]. */
     val MAGENTA: ColorVisual
       get() = ColorVisual(Color.MAGENTA)
 
-    /** [ColorVisual] filled [CYAN]. */
+    /** [ColorVisual] filled with [Color.CYAN]. */
     val CYAN: ColorVisual
       get() = ColorVisual(Color.CYAN)
 
-    /** [ColorVisual] filled [BLUE]. */
+    /** [ColorVisual] filled with [Color.BLUE]. */
     val BLUE: ColorVisual
       get() = ColorVisual(Color.BLUE)
+
+    /** [ColorVisual] filled with [Color.PURPLE]. */
+    val PURPLE: ColorVisual
+      get() = ColorVisual(Color.PURPLE)
+
+    /** [ColorVisual] filled with [Color.BROWN]. */
+    val BROWN: ColorVisual
+      get() = ColorVisual(Color.BROWN)
   }
 }
